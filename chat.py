@@ -48,10 +48,23 @@ def main():
         if not prompt:
             continue
         history.append({"role": "user", "content": prompt})
-        inputs = tokenizer.apply_chat_template(history, add_generation_prompt=True, return_tensors="pt").to(device)
+        encoded = tokenizer.apply_chat_template(
+            history,
+            add_generation_prompt=True,
+            tokenize=True,
+            return_dict=True,
+            return_tensors="pt",
+        ).to(device)
         with torch.inference_mode():
-            output = model.generate(inputs, max_new_tokens=args.max_new_tokens, do_sample=True, temperature=0.7, top_p=0.9, pad_token_id=tokenizer.eos_token_id)
-        answer = tokenizer.decode(output[0, inputs.shape[-1]:], skip_special_tokens=True).strip()
+            output = model.generate(
+                **encoded,
+                max_new_tokens=args.max_new_tokens,
+                do_sample=True,
+                temperature=0.7,
+                top_p=0.9,
+                pad_token_id=tokenizer.eos_token_id,
+            )
+        answer = tokenizer.decode(output[0, encoded["input_ids"].shape[-1]:], skip_special_tokens=True).strip()
         print(f"AI: {answer}\n")
         history.append({"role": "assistant", "content": answer})
 
