@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101610">
+  <meta name="description" content="Tuesday — a private, browser-based chat with a small local AI model.">
+  <title>Tuesday — Local AI Chat</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23c5f36c'/%3E%3Cpath d='M12 14h16M20 14v14' stroke='%23101610' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Dashboard navigation">
+      <a class="brand" href="./" aria-label="Tuesday home"><span class="brand-mark">T</span><span class="brand-name">tuesday<span class="brand-period">.</span></span></a>
+      <div class="rail-label">WORKSPACE</div>
+      <button class="nav-item active" type="button"><span class="nav-icon">◉</span> Chat <span class="nav-dot"></span></button>
+      <div class="rail-note">
+        <div class="note-icon">⌁</div>
+        <div><strong>Your device, your chat.</strong><p>Replies are generated in this browser. No prompt is sent to an AI server.</p></div>
+      </div>
+      <div class="rail-footer"><span class="local-dot"></span> Runs on your device<br><span class="footer-sub">Model files cached by your browser</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><i>/</i><strong>Chat</strong></div>
+        <div class="top-actions"><span class="privacy-pill"><span class="local-dot"></span> Private by design</span><button class="icon-button" id="clear-chat" title="Clear conversation" aria-label="Clear conversation">↺</button><div class="avatar" title="Tuesday">T</div></div>
+      </header>
+
+      <section class="chat-layout" aria-label="Chat with Tuesday">
+        <div class="chat-head">
+          <div>
+            <div class="eyebrow"><span class="spark">✳</span> PERSONAL AI · ON-DEVICE</div>
+            <h1>Talk it through<span class="title-period">.</span></h1>
+            <p class="subhead">A small AI, right here in your browser.</p>
+          </div>
+          <div class="model-chip"><span class="model-glyph">T</span><div><strong>Tuesday</strong><span>SmolLM2 · 360M</span></div><span class="model-chevron">⌄</span></div>
+        </div>
+
+        <div class="conversation" id="conversation" aria-live="polite" aria-label="Conversation">
+          <div class="welcome" id="welcome">
+            <div class="welcome-mark">T<span>.</span></div>
+            <div class="welcome-kicker">YOUR LOCAL AI COMPANION</div>
+            <h2>What’s on your mind?</h2>
+            <p>Ask a question, get a first draft, or think out loud. Tuesday is ready when you are.</p>
+            <div class="suggestions">
+              <button class="suggestion" data-prompt="Help me plan a focused 30-minute work session">✳ <span>Plan a focused work session</span><b>↗</b></button>
+              <button class="suggestion" data-prompt="Explain how rainbows form in simple terms">⌁ <span>Explain something simply</span><b>↗</b></button>
+              <button class="suggestion" data-prompt="Give me three ideas for a quick, healthy lunch">◌ <span>Brainstorm a few ideas</span><b>↗</b></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="typing-row" id="typing-row" hidden><span class="typing-dot"></span><span id="typing-label">Tuesday is thinking</span><span class="typing-pulse"><i></i><i></i><i></i></span></div>
+
+        <form class="composer" id="chat-form">
+          <label class="sr-only" for="message-input">Message Tuesday</label>
+          <textarea id="message-input" rows="1" placeholder="Message Tuesday…" maxlength="3000" required></textarea>
+          <div class="composer-bottom"><div class="composer-hint"><span class="keycap">↵</span> to send <span class="hint-divider">·</span> <span id="char-count">0</span>/3000</div><button class="send-button" id="send-button" type="submit" aria-label="Send message"><span>Send</span><b>↑</b></button></div>
+        </form>
+        <div class="chat-foot"><span>Tuesday may make mistakes. Check important information.</span><span class="runtime-label"><span class="local-dot"></span><span id="runtime-status">Model not loaded</span></span></div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
