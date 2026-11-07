@@ -156,3 +156,9 @@ clearButton.addEventListener('click', () => {
 if (!('Worker' in window)) {
   notify('This browser may not support local model inference. Try a recent version of Chrome, Edge, or Firefox.');
 }
+
+// Warm the browser cache as soon as the page opens; no separate model download step is needed.
+loadModel().catch((error) => {
+  console.error('Tuesday model preload failed:', error);
+  notify('Model download did not finish. Keep this page open and try sending a message to retry.');
+});

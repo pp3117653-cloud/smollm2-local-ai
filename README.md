@@ -8,7 +8,7 @@ Tuesday is a lightweight chat dashboard for SmolLM2 360M Instruct. Use the brows
 
 ## Tuesday browser dashboard
 
-The dashboard is in [`site/`](site/). It uses Transformers.js in your browser and downloads the quantized ONNX model from Hugging Face on first use. The first model download is several hundred megabytes and requires an internet connection; inference then runs in the browser. Browser inference has its own model cache, separate from the Python CLI's cache. Chats remain in page memory and are cleared when you refresh or use the reset button.
+The dashboard is in [`site/`](site/). It uses Transformers.js in your browser and begins downloading the quantized ONNX model from Hugging Face automatically when the page opens; no separate model installation or download step is required. The first model download is several hundred megabytes and requires an internet connection; inference then runs in the browser. Browser inference has its own model cache, separate from the Python CLI's cache. Chats remain in page memory and are cleared when you refresh or use the reset button.
 
 The dashboard needs a modern browser and enough memory for a 360M model. It defaults to browser CPU/WASM for broad compatibility; performance depends on the device and browser. The static page and JavaScript library are served from GitHub Pages/CDN, and the model files are fetched from Hugging Face. Prompts and replies are not submitted to those services for inference.
 
