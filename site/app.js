@@ -1,4 +1,5 @@
 import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2';
+import { getServices, handlePluginCommand, openService } from './plugins.js?v=tools-2';
 
 const MODEL_ID = 'HuggingFaceTB/SmolLM2-360M-Instruct';
 const form = document.querySelector('#chat-form');
@@ -12,6 +13,10 @@ const typingLabel = document.querySelector('#typing-label');
 const runtimeStatus = document.querySelector('#runtime-status');
 const charCount = document.querySelector('#char-count');
 const toast = document.querySelector('#toast');
+const appsButton = document.querySelector('#apps-button');
+const appsDialog = document.querySelector('#apps-dialog');
+const closeAppsButton = document.querySelector('#close-apps');
+const servicesGrid = document.querySelector('#services-grid');
 
 let generatorPromise;
 let history = [{ role: 'system', content: 'You are Tuesday, a friendly and helpful AI assistant. Answer clearly and honestly. If you are unsure, say so.' }];
@@ -90,6 +95,12 @@ async function sendMessage(text) {
   charCount.textContent = '0';
   input.style.height = 'auto';
   addMessage('user', clean);
+  const pluginReply = handlePluginCommand(clean);
+  if (pluginReply !== null) {
+    addMessage('assistant', pluginReply);
+    input.focus();
+    return;
+  }
   history.push({ role: 'user', content: clean });
   // Keep system guidance and recent turns to limit browser memory and response latency.
   const context = [history[0], ...history.slice(-8)];
@@ -151,6 +162,26 @@ clearButton.addEventListener('click', () => {
   input.value = '';
   charCount.textContent = '0';
   input.focus();
+});
+
+for (const service of getServices()) {
+  const button = document.createElement('button');
+  button.className = 'service-card';
+  button.type = 'button';
+  button.dataset.service = service.id;
+  button.innerHTML = `<span class="service-mark" style="--service-color:${service.color}">${service.mark}</span><span class="service-name">${service.name}</span><span class="service-arrow">↗</span>`;
+  button.addEventListener('click', () => {
+    const result = openService(service.id);
+    appsDialog.close();
+    notify(result);
+  });
+  servicesGrid.append(button);
+}
+
+appsButton.addEventListener('click', () => appsDialog.showModal());
+closeAppsButton.addEventListener('click', () => appsDialog.close());
+appsDialog.addEventListener('click', (event) => {
+  if (event.target === appsDialog) appsDialog.close();
 });
 
 if (!('Worker' in window)) {

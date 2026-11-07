@@ -12,6 +12,8 @@ The dashboard is in [`site/`](site/). It uses Transformers.js in your browser an
 
 The dashboard needs a modern browser and enough memory for a 360M model. It defaults to browser CPU/WASM for broad compatibility; performance depends on the device and browser. The static page and JavaScript library are served from GitHub Pages/CDN, and the model files are fetched from Hugging Face. Prompts and replies are not submitted to those services for inference.
 
+The **Apps** panel provides quick links for Instagram, YouTube, Google Maps, WhatsApp, Facebook, TikTok, X, LinkedIn, Reddit, Telegram, and Pinterest. Chat commands include `/youtube <search>`, `/maps <place>`, `/whatsapp <draft>`, and `/open <app>`. The calculator (`/calc 12*(3+4)`) and task list (`/task add ...`, `/task list`, `/task done 1`) run in the browser; task data stays in that browser's local storage. WhatsApp opens a draft, but never sends it. App links do not grant account access, read private messages, or publish posts. Real account integrations require each service's approved sign-in/API setup; this static site intentionally stores no service credentials.
+
 The workflow at [`.github/workflows/pages.yml`](.github/workflows/pages.yml) publishes only the `site/` folder whenever `master` is updated or the workflow is run manually. The Pages publishing source must be set to **GitHub Actions** in the repository's Pages settings. The resulting website is public to anyone with its URL, even if the source repository is private (where the account plan permits Pages for private repositories).
 
 ## Requirements
